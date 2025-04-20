@@ -37,7 +37,13 @@ function setupEventListeners() {
     dropZone.addEventListener('dragover', handleDragOver);
     dropZone.addEventListener('dragleave', handleDragLeave);
     dropZone.addEventListener('drop', handleDrop);
-    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('click', (event) => {
+        // Don't trigger fileInput.click() if the click was on the label
+        // as the label already has a 'for' attribute that does this
+        if (event.target.tagName !== 'LABEL') {
+            fileInput.click();
+        }
+    });
 
     // File selection and deletion
     selectAllBtn.addEventListener('click', toggleSelectAll);
