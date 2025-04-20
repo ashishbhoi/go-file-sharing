@@ -1,13 +1,13 @@
 # Go File Sharing Web Application
 
-[![Go Version](https://img.shields.io/github/go-mod/go-version/ashishbhoi/go-file-sharing)](https://golang.org)
-[![License](https://img.shields.io/github/license/ashishbhoi/go-file-sharing)](https://raw.githubusercontent.com/ashishbhoi/go-file-sharing/refs/heads/master/LICENSE)
-[![Docker](https://img.shields.io/docker/v/ashishbhoi/go-file-sharing)](https://hub.docker.com/repository/docker/ashishbhoi/go-file-sharing/general)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/ashishbhoi/go-file-sharing)](https://go.dev/doc/devel/release#go1.24.0)
+[![License](https://img.shields.io/github/license/ashishbhoi/go-file-sharing)](https://github.com/ashishbhoi/go-file-sharing/blob/main/LICENSE)
+[![Docker](https://img.shields.io/docker/v/ashishbhoi/go-file-sharing)](https://hub.docker.com/r/ashishbhoi/go-file-sharing)
 
 A simple, lightweight, and modern web-based file sharing application built with Go. This application allows users to easily upload, view, download, and delete files through an intuitive web interface without requiring user authentication. Perfect for temporary file sharing in local networks or controlled environments.
 
-![Go File Sharing App (Dark Mode)](https://raw.githubusercontent.com/ashishbhoi/go-file-sharing/e256656d5b7bb0c3cd17343d3d822614a129e956/screenshot/dark.png)
-![Go File Sharing App (Light Mode)](https://raw.githubusercontent.com/ashishbhoi/go-file-sharing/e256656d5b7bb0c3cd17343d3d822614a129e956/screenshot/light.png)
+![Go File Sharing App (Dark Mode)](https://github.com/ashishbhoi/go-file-sharing/blob/main/screenshot/dark.png?raw=true)
+![Go File Sharing App (Light Mode)](https://github.com/ashishbhoi/go-file-sharing/blob/main/screenshot/light.png?raw=true)
 
 ## Table of Contents
 
