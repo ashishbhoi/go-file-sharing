@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go File Sharing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4a6bff',
+                        'primary-hover': '#3a5bef',
+                        danger: '#ff4a4a',
+                        'danger-hover': '#e43a3a',
+                        success: '#4aff4a',
+                        'text-dark': '#333',
+                        'text-light': '#666',
+                        'text-lighter': '#999',
+                        'border-color': '#ddd',
+                        'bg-color': '#f9f9f9',
+                        'card-bg': '#fff',
+                        // Dark mode colors
+                        'dark-primary': '#6a8bff',
+                        'dark-primary-hover': '#5a7bff',
+                        'dark-danger': '#ff6a6a',
+                        'dark-danger-hover': '#ff5a5a',
+                        'dark-success': '#6aff6a',
+                        'dark-text-dark': '#e0e0e0',
+                        'dark-text-light': '#a0a0a0',
+                        'dark-text-lighter': '#808080',
+                        'dark-border-color': '#444',
+                        'dark-bg-color': '#121212',
+                        'dark-card-bg': '#1e1e1e',
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // Check for user preference and set dark mode accordingly
+        function initDarkMode() {
+            // Check if user has a saved preference
+            const darkModePreference = localStorage.getItem('darkMode');
+
+            // If user has a preference, use it
+            if (darkModePreference === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else if (darkModePreference === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                // Otherwise, use system preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                }
+            }
+
+            // Listen for changes in system preference
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                if (!localStorage.getItem('darkMode')) { // Only change if user hasn't set a preference
+                    if (event.matches) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            });
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('darkMode', 'dark');
+            }
+        }
+
+        // Initialize dark mode on page load
+        document.addEventListener('DOMContentLoaded', initDarkMode);
+    </script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="font-sans leading-relaxed text-text-dark bg-bg-color dark:text-dark-text-dark dark:bg-dark-bg-color transition-colors duration-200">
+    <div class="max-w-7xl mx-auto p-5">
+        <header class="mb-8 text-center relative">
+            <button id="dark-mode-toggle" class="absolute right-0 top-0 p-2 rounded-full bg-bg-color dark:bg-dark-card-bg border border-border-color dark:border-dark-border-color transition-colors duration-200" title="Toggle Dark Mode">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-text-dark dark:text-dark-text-dark hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-text-dark dark:text-dark-text-dark block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+            <h1 class="text-4xl text-primary dark:text-dark-primary font-bold mb-3">Go File Sharing</h1>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="bg-card-bg dark:bg-dark-card-bg rounded-lg p-5 mb-8 shadow-md transition-colors duration-200">
+                <h2 class="text-2xl text-text-dark dark:text-dark-text-dark mb-4">Upload Files</h2>
+                <div id="drop-zone" class="drop-zone border-2 border-dashed border-border-color dark:border-dark-border-color rounded-lg p-10 text-center cursor-pointer transition-all duration-300">
+                    <div class="drop-zone-prompt text-text-light dark:text-dark-text-light">
+                        <p class="mb-2">Drag & drop files here</p>
+                        <p class="mb-2">or</p>
+                        <label for="file-input" class="inline-block bg-primary dark:bg-dark-primary text-white px-5 py-2 rounded cursor-pointer transition-all duration-300 hover:bg-primary-hover dark:hover:bg-dark-primary-hover">Select Files</label>
+                        <input type="file" id="file-input" multiple class="file-input">
+                    </div>
+                    <div id="upload-progress" class="mt-5 hidden">
+                        <div class="h-2.5 bg-border-color dark:bg-dark-border-color rounded overflow-hidden mb-2 transition-colors duration-200">
+                            <div id="progress-bar-fill" class="progress-bar-fill bg-primary dark:bg-dark-primary"></div>
+                        </div>
+                        <p id="progress-text" class="text-text-light dark:text-dark-text-light">Uploading...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Files Section -->
+            <section class="bg-card-bg dark:bg-dark-card-bg rounded-lg p-5 shadow-md transition-colors duration-200">
+                <div class="flex justify-between items-center mb-5 files-header">
+                    <h2 class="text-2xl text-text-dark dark:text-dark-text-dark">Files</h2>
+                    <div class="flex gap-2 files-actions">
+                        <button id="select-all-btn" class="px-4 py-2 border-none rounded cursor-pointer transition-all duration-300 font-medium bg-bg-color dark:bg-dark-bg-color text-text-dark dark:text-dark-text-dark hover:bg-border-color dark:hover:bg-dark-border-color">Select All</button>
+                        <button id="delete-selected-btn" class="px-4 py-2 border-none rounded cursor-pointer transition-all duration-300 font-medium bg-danger dark:bg-dark-danger text-white hover:bg-danger-hover dark:hover:bg-dark-danger-hover disabled:opacity-50 disabled:cursor-not-allowed" disabled>Delete Selected</button>
+                    </div>
+                </div>
+                <div class="files-list-container">
+                    <table id="files-list" class="w-full border-collapse files-list">
+                        <thead>
+                            <tr>
+                                <th class="p-3 text-left border-b border-border-color dark:border-dark-border-color font-semibold text-text-light dark:text-dark-text-light w-10 checkbox-column transition-colors duration-200"><input type="checkbox" id="select-all-checkbox"></th>
+                                <th class="p-3 text-left border-b border-border-color dark:border-dark-border-color font-semibold text-text-light dark:text-dark-text-light transition-colors duration-200">Name</th>
+                                <th class="p-3 text-left border-b border-border-color dark:border-dark-border-color font-semibold text-text-light dark:text-dark-text-light transition-colors duration-200">Size</th>
+                                <th class="p-3 text-left border-b border-border-color dark:border-dark-border-color font-semibold text-text-light dark:text-dark-text-light transition-colors duration-200">Uploaded</th>
+                                <th class="p-3 text-left border-b border-border-color dark:border-dark-border-color font-semibold text-text-light dark:text-dark-text-light transition-colors duration-200">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="files-table-body">
+                            <!-- Files will be added here dynamically -->
+                        </tbody>
+                    </table>
+                    <div id="no-files-message" class="text-center py-10 text-text-lighter dark:text-dark-text-lighter no-files-message transition-colors duration-200">
+                        <p>No files uploaded yet.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-10 text-center text-text-lighter dark:text-dark-text-lighter text-sm transition-colors duration-200">
+            <p>&copy; 2025 Go File Sharing</p>
+        </footer>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-10 hidden modal">
+        <div class="bg-card-bg dark:bg-dark-card-bg rounded-lg p-8 w-11/12 max-w-lg shadow-md modal-content transition-colors duration-200">
+            <h3 class="text-xl font-semibold mb-4 text-text-dark dark:text-dark-text-dark">Confirm Deletion</h3>
+            <p id="confirmation-message" class="mb-5 text-text-dark dark:text-dark-text-dark">Are you sure you want to delete this file?</p>
+            <div class="flex justify-end gap-2 modal-actions">
+                <button id="cancel-delete-btn" class="px-4 py-2 border-none rounded cursor-pointer transition-all duration-300 font-medium bg-bg-color dark:bg-dark-bg-color text-text-dark dark:text-dark-text-dark hover:bg-border-color dark:hover:bg-dark-border-color">Cancel</button>
+                <button id="confirm-delete-btn" class="px-4 py-2 border-none rounded cursor-pointer transition-all duration-300 font-medium bg-danger dark:bg-dark-danger text-white hover:bg-danger-hover dark:hover:bg-dark-danger-hover">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+
+    <script>
+        // Add event listener for dark mode toggle button
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', toggleDarkMode);
+            }
+        });
+    </script>
+</body>
+</html>
