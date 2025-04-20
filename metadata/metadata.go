@@ -12,8 +12,8 @@ const (
 )
 
 var (
-	FileMetadata = make(map[string]string) // Maps file IDs to original filenames
-	MetadataMutex = &sync.Mutex{} // Mutex to protect access to FileMetadata
+	FileMetadata  = make(map[string]string) // Maps file IDs to original filenames
+	MetadataMutex = &sync.Mutex{}           // Mutex to protect access to FileMetadata
 )
 
 // LoadMetadata loads the file metadata from disk
