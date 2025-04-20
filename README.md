@@ -7,7 +7,7 @@
 A simple, lightweight, and modern web-based file sharing application built with Go. This application allows users to easily upload, view, download, and delete files through an intuitive web interface without requiring user authentication. Perfect for temporary file sharing in local networks or controlled environments.
 
 ![Go File Sharing App (Dark Mode)](https://raw.githubusercontent.com/ashishbhoi/go-file-sharing/e256656d5b7bb0c3cd17343d3d822614a129e956/screenshot/dark.png)
-![Go File Sharing App (Light Mode)](https://raw.githubusercontent.com/ashishbhoi/go-file-sharing/e256656d5b7bb0c3cd17343d3d822614a129e956/screenshot/dark.png)
+![Go File Sharing App (Light Mode)](https://raw.githubusercontent.com/ashishbhoi/go-file-sharing/e256656d5b7bb0c3cd17343d3d822614a129e956/screenshot/light.png)
 
 ## Table of Contents
 
